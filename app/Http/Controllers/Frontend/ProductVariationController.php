@@ -41,6 +41,13 @@ class ProductVariationController extends Controller
 
     public function ancestorsToString(ProductVariation $productVariation): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
+        //Imprimir la cadena de ancestros de un producto
+    
+        Log::info('ACAAAAA ANCESTORSSSSSS');
+        dd($productVariation);
+
+    
+
         try {
             return response(['data' => $this->productVariationService->ancestorsToString($productVariation)], 200);
         } catch (Exception $exception) {

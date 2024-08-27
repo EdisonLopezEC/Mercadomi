@@ -1,6 +1,5 @@
-import axios from 'axios'
+import axios from "axios";
 import appService from "../../services/appService";
-
 
 export const productVariation = {
     namespaced: true,
@@ -20,7 +19,7 @@ export const productVariation = {
         initialVariation: [],
         childrenVariation: [],
         ancestorsToString: "",
-        ancestorsAndSelfId: []
+        ancestorsAndSelfId: [],
     },
     getters: {
         tree: function (state) {
@@ -36,7 +35,7 @@ export const productVariation = {
             return state.lists;
         },
         pagination: function (state) {
-            return state.pagination
+            return state.pagination;
         },
         page: function (state) {
             return state.page;
@@ -57,8 +56,8 @@ export const productVariation = {
             return state.ancestorsToString;
         },
         ancestorsAndSelfId: function (state) {
-            return state.ancestorsAndSelfId
-        }
+            return state.ancestorsAndSelfId;
+        },
     },
     actions: {
         tree: function (context, payload) {
@@ -67,27 +66,39 @@ export const productVariation = {
                 if (payload) {
                     url = url + appService.requestHandler(payload);
                 }
-                axios.get(url).then((res) => {
-                    if (typeof payload.vuex === "undefined" || payload.vuex === true) {
-                        context.commit('tree', res.data.data);
-                    }
-                    resolve(res);
-                }).catch((err) => {
-                    reject(err);
-                });
+                axios
+                    .get(url)
+                    .then((res) => {
+                        if (
+                            typeof payload.vuex === "undefined" ||
+                            payload.vuex === true
+                        ) {
+                            context.commit("tree", res.data.data);
+                        }
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
             });
         },
         singleTree: function (context, payload) {
             return new Promise((resolve, reject) => {
                 let url = `admin/product/variation/${payload}/single-tree`;
-                axios.get(url).then((res) => {
-                    if (typeof payload.vuex === "undefined" || payload.vuex === true) {
-                        context.commit('singleTree', res.data.data);
-                    }
-                    resolve(res);
-                }).catch((err) => {
-                    reject(err);
-                });
+                axios
+                    .get(url)
+                    .then((res) => {
+                        if (
+                            typeof payload.vuex === "undefined" ||
+                            payload.vuex === true
+                        ) {
+                            context.commit("singleTree", res.data.data);
+                        }
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
             });
         },
         treeWithSelected: function (context, payload) {
@@ -96,14 +107,20 @@ export const productVariation = {
                 if (payload) {
                     url = url + appService.requestHandler(payload);
                 }
-                axios.get(url).then((res) => {
-                    if (typeof payload.vuex === "undefined" || payload.vuex === true) {
-                        context.commit('treeWithSelected', res.data.data);
-                    }
-                    resolve(res);
-                }).catch((err) => {
-                    reject(err);
-                });
+                axios
+                    .get(url)
+                    .then((res) => {
+                        if (
+                            typeof payload.vuex === "undefined" ||
+                            payload.vuex === true
+                        ) {
+                            context.commit("treeWithSelected", res.data.data);
+                        }
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
             });
         },
         lists: function (context, payload) {
@@ -112,35 +129,52 @@ export const productVariation = {
                 if (payload) {
                     url = url + appService.requestHandler(payload);
                 }
-                axios.get(url).then((res) => {
-                    if (typeof payload.vuex === "undefined" || payload.vuex === true) {
-                        context.commit('lists', res.data.data);
-                        context.commit('page', res.data.meta);
-                        context.commit('pagination', res.data);
-                    }
-                    resolve(res);
-                }).catch((err) => {
-                    reject(err);
-                });
+                axios
+                    .get(url)
+                    .then((res) => {
+                        if (
+                            typeof payload.vuex === "undefined" ||
+                            payload.vuex === true
+                        ) {
+                            context.commit("lists", res.data.data);
+                            context.commit("page", res.data.meta);
+                            context.commit("pagination", res.data);
+                        }
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
             });
         },
         save: function (context, payload) {
             return new Promise((resolve, reject) => {
                 let method = axios.post;
-                let url    = `/admin/product/variation/${payload.productId}/store`;
-                if (this.state['productVariation'].temp.isEditing) {
+                let url = `/admin/product/variation/${payload.productId}/store`;
+                if (this.state["productVariation"].temp.isEditing) {
                     method = axios.put;
-                    url    = `/admin/product/variation/${payload.productId}/update/${this.state['productVariation'].temp.temp_id}`;
+                    url = `/admin/product/variation/${payload.productId}/update/${this.state["productVariation"].temp.temp_id}`;
                 }
-                method(url, payload.form).then(res => {
-                    context.dispatch('singleTree', payload.productId).then().catch();
-                    context.dispatch('tree', {productId: payload.productId}).then().catch();
-                    context.dispatch('lists', {productId: payload.productId}).then().catch();
-                    context.commit('reset');
-                    resolve(res);
-                }).catch((err) => {
-                    reject(err);
-                });
+                method(url, payload.form)
+                    .then((res) => {
+                        context
+                            .dispatch("singleTree", payload.productId)
+                            .then()
+                            .catch();
+                        context
+                            .dispatch("tree", { productId: payload.productId })
+                            .then()
+                            .catch();
+                        context
+                            .dispatch("lists", { productId: payload.productId })
+                            .then()
+                            .catch();
+                        context.commit("reset");
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
             });
         },
         edit: function (context, payload) {
@@ -149,86 +183,127 @@ export const productVariation = {
                 if (payload) {
                     url = url + appService.requestHandler(payload);
                 }
-                axios.get(url).then((res) => {
-                    if (typeof payload.vuex === "undefined" || payload.vuex === true) {
-                        context.commit('temp', {payload: payload, data: res.data.data});
-                    }
-                    resolve(res);
-                }).catch((err) => {
-                    reject(err);
-                });
+                axios
+                    .get(url)
+                    .then((res) => {
+                        if (
+                            typeof payload.vuex === "undefined" ||
+                            payload.vuex === true
+                        ) {
+                            context.commit("temp", {
+                                payload: payload,
+                                data: res.data.data,
+                            });
+                        }
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
             });
-
         },
         destroy: function (context, payload) {
             return new Promise((resolve, reject) => {
-                axios.delete(`admin/product/variation/${payload.productId}/destroy/${payload.productVariationId}`).then((res) => {
-                    context.dispatch('singleTree', payload.productId).then().catch();
-                    context.dispatch('tree', {productId: payload.productId}).then().catch();
-                    context.dispatch('lists', {productId: payload.productId}).then().catch();
-                    resolve(res);
-                }).catch((err) => {
-                    reject(err);
-                });
+                axios
+                    .delete(
+                        `admin/product/variation/${payload.productId}/destroy/${payload.productVariationId}`
+                    )
+                    .then((res) => {
+                        context
+                            .dispatch("singleTree", payload.productId)
+                            .then()
+                            .catch();
+                        context
+                            .dispatch("tree", { productId: payload.productId })
+                            .then()
+                            .catch();
+                        context
+                            .dispatch("lists", { productId: payload.productId })
+                            .then()
+                            .catch();
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
             });
         },
         show: function (context, payload) {
             return new Promise((resolve, reject) => {
-                axios.get(`admin/product/variation/${payload.productId}/show/${payload.productVariationId}`).then((res) => {
-                    context.commit('show', res.data.data);
-                    resolve(res);
-                }).catch((err) => {
-                    reject(err);
-                });
+                axios
+                    .get(
+                        `admin/product/variation/${payload.productId}/show/${payload.productVariationId}`
+                    )
+                    .then((res) => {
+                        context.commit("show", res.data.data);
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
             });
         },
         reset: function (context) {
-            context.commit('reset');
+            context.commit("reset");
         },
         initialVariation: function (context, payload) {
             return new Promise((resolve, reject) => {
                 let url = `admin/product/initial-variation/${payload}`;
-                axios.get(url).then((res) => {
-                    context.commit("initialVariation", res.data.data);
-                    resolve(res);
-                }).catch((err) => {
-                    reject(err);
-                });
+                axios
+                    .get(url)
+                    .then((res) => {
+                        context.commit("initialVariation", res.data.data);
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
             });
         },
         childrenVariation: function (context, payload) {
             return new Promise((resolve, reject) => {
                 let url = `admin/product/children-variation/${payload}`;
-                axios.get(url).then((res) => {
-                    context.commit("childrenVariation", res.data.data);
-                    resolve(res);
-                }).catch((err) => {
-                    reject(err);
-                });
+                axios
+                    .get(url)
+                    .then((res) => {
+                        context.commit("childrenVariation", res.data.data);
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
             });
         },
         ancestorsToString: function (context, payload) {
+            console.log("aca en ancestorsToString");
+            //Impriimir de otra forma
             return new Promise((resolve, reject) => {
                 let url = `admin/product/variation/ancestors-and-self/${payload}`;
-                axios.get(url).then((res) => {
-                    context.commit("ancestorsToString", res.data.data);
-                    resolve(res);
-                }).catch((err) => {
-                    reject(err);
-                });
+                axios
+                    .get(url)
+                    .then((res) => {
+                        context.commit("ancestorsToString", res.data.data);
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
             });
         },
         ancestorsAndSelfId: function (context, payload) {
             return new Promise((resolve, reject) => {
                 let url = `admin/product/ancestors-and-self-id/${payload}`;
-                axios.get(url).then((res) => {
-                    context.commit("ancestorsAndSelfId", res.data.data);
-                    resolve(res);
-                }).catch((err) => {
-                    reject(err);
-                });
+                axios
+                    .get(url)
+                    .then((res) => {
+                        context.commit("ancestorsAndSelfId", res.data.data);
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
             });
-        }
+        },
     },
     mutations: {
         tree: function (state, payload) {
@@ -251,8 +326,8 @@ export const productVariation = {
                 state.page = {
                     from: payload.from,
                     to: payload.to,
-                    total: payload.total
-                }
+                    total: payload.total,
+                };
             }
         },
         show: function (state, payload) {
@@ -260,12 +335,12 @@ export const productVariation = {
         },
         temp: function (state, payload) {
             state.temp.temp_date = payload.data;
-            state.temp.temp_id   = payload.payload.id;
+            state.temp.temp_id = payload.payload.id;
             state.temp.isEditing = true;
         },
         reset: function (state) {
             state.temp.temp_data = [];
-            state.temp.temp_id   = null;
+            state.temp.temp_id = null;
             state.temp.isEditing = false;
         },
         initialVariation: function (state, payload) {
@@ -279,6 +354,6 @@ export const productVariation = {
         },
         ancestorsAndSelfId: function (state, payload) {
             state.ancestorsAndSelfId = payload;
-        }
+        },
     },
-}
+};

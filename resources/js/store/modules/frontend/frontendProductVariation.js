@@ -16,42 +16,52 @@ export const frontendProductVariation = {
         },
         ancestorsToString: function (state) {
             return state.ancestorsToString;
-        }
+        },
     },
     actions: {
         initialVariation: function (context, payload) {
             return new Promise((resolve, reject) => {
                 let url = `frontend/product/initial-variation/${payload}`;
-                axios.get(url).then((res) => {
-                    context.commit("initialVariation", res.data.data);
-                    resolve(res);
-                }).catch((err) => {
-                    reject(err);
-                });
+                axios
+                    .get(url)
+                    .then((res) => {
+                        context.commit("initialVariation", res.data.data);
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
             });
         },
         childrenVariation: function (context, payload) {
             return new Promise((resolve, reject) => {
                 let url = `frontend/product/children-variation/${payload}`;
-                axios.get(url).then((res) => {
-                    context.commit("childrenVariation", res.data.data);
-                    resolve(res);
-                }).catch((err) => {
-                    reject(err);
-                });
+                axios
+                    .get(url)
+                    .then((res) => {
+                        context.commit("childrenVariation", res.data.data);
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
             });
         },
         ancestorsToString: function (context, payload) {
+            console.log("aca en ancestorsToString");
             return new Promise((resolve, reject) => {
                 let url = `frontend/product/variation/ancestors-and-self/${payload}`;
-                axios.get(url).then((res) => {
-                    context.commit("ancestorsToString", res.data.data);
-                    resolve(res);
-                }).catch((err) => {
-                    reject(err);
-                });
+                axios
+                    .get(url)
+                    .then((res) => {
+                        context.commit("ancestorsToString", res.data.data);
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
             });
-        }
+        },
     },
     mutations: {
         initialVariation: function (state, payload) {
@@ -62,6 +72,6 @@ export const frontendProductVariation = {
         },
         ancestorsToString: function (state, payload) {
             state.ancestorsToString = payload;
-        }
+        },
     },
 };
